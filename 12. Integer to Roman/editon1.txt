@@ -1,0 +1,68 @@
+//Runtime: 4 ms, faster than 67.73% of Java online submissions for Integer to Roman.
+//Memory Usage: 36.3 MB, less than 100.00% of Java online submissions for Integer to Roman.
+
+class Solution {
+    public String intToRoman(int num) {
+        int temp;
+        int i = 0;
+        String resu = "";
+        
+        temp = num/1000;
+        for(; temp > 0; temp--){
+            resu = resu + "M";
+        }
+        
+        num = num % 1000;
+        temp = num/100;
+        if(temp == 9){
+            resu = resu + "CM";
+        } else if(temp >= 5){
+            resu = resu + "D";
+            for(i = temp -5; i>0; i--){
+                resu = resu + "C";
+            }
+        }  else if(temp == 4){
+            resu = resu + "CD";
+        } 
+          else for(; temp > 0; temp--){
+            resu = resu + "C";
+        }
+
+        num = num % 100;
+        temp = num/10;
+        if(temp == 9){
+            resu = resu + "XC";
+        } else if(temp >= 5){
+            resu = resu + "L";
+            for(i = temp - 5; i > 0; i--){
+                resu = resu + "X";
+            }
+        }  else if(temp == 4){
+            resu = resu + "XL";
+        } 
+          else for( ; temp > 0; temp--){
+            resu = resu + "X";
+        }
+        
+        
+        
+        num = num % 10;
+        temp = num;
+        if(temp == 9){
+            resu = resu + "IX";
+        } else if(temp >= 5){
+            resu = resu + "V";
+            for(i = temp - 5; i>0; i--){
+                resu = resu + "I";
+            }
+        }  else if(temp == 4){
+            resu = resu + "IV";
+        } 
+          else for( ; temp > 0; temp--){
+            resu = resu + "I";
+        }
+        
+        return resu;
+        
+    }
+}

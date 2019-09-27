@@ -1,0 +1,60 @@
+//stupid method
+/**
+Runtime: 163 ms, faster than 5.07% of Java online submissions for Edit Distance.
+Memory Usage: 85.6 MB, less than 5.88% of Java online submissions for Edit Distance.
+8/
+
+class Solution {
+    HashMap<String, Integer> opt = new HashMap<>();
+    public int minDistance(String word1, String word2) {
+        char[] goal = word2.toCharArray();
+        char[] original = word1.toCharArray();
+
+        int oriLength = original.length;
+        int goLength = goal.length;
+
+        int i = convert(original, oriLength, goal, goLength, 0, 0);
+        //System.out.println();
+        return i;
+
+    }
+
+    private int convert(char[] original, int oriLength, char[] goal, int goaLength, int i, int j) {
+
+        
+            
+        //base case: convert over
+        if (i == oriLength) {
+            return goaLength - j;
+        }
+        if (j == goaLength) {
+            return oriLength - i;
+        }
+        
+        String ko1i = String.valueOf(i);
+        String ko1j = String.valueOf(j);
+        String ko1 = ko1i + " " + ko1j;
+        if(!opt.containsKey(ko1)){
+            
+        //case 1, oi ==gj
+            int o1 = Integer.MAX_VALUE;
+            if (original[i] == goal[j]) {
+                o1 = convert(original, oriLength, goal, goaLength, i+1, j + 1);
+        }
+
+        //case 2.1 oi!=gj,insert
+            int o2 = 1 + convert(original, oriLength, goal, goaLength, i, j + 1);
+
+        //case 2.1 oi!=gj,replace
+            int o3 = 1 + convert(original, oriLength, goal, goaLength, i+1, j + 1);
+
+        //case 2.1 oi!=gj,delete
+            int o4 = 1 + convert(original, oriLength, goal, goaLength, i+1, j);
+
+            int topt = Math.min(o1,Math.min(o2,Math.min(o3,o4)));
+                opt.put(ko1,topt);
+        }
+        
+        return opt.get(ko1);
+    }
+}

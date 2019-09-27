@@ -1,0 +1,35 @@
+//stupid solution!!!
+//reason: every subproblem will be used at least once, so this solution will never better than edition1(compute all subproblems firstly)
+class Solution {
+    private HashMap<Integer,Integer> minCostFrom = new HashMap<>();
+    
+    public int minCostClimbingStairs(int[] cost) {
+        int a = findMinCost(0,cost);
+        int b = findMinCost(1,cost);
+        return (a<b) ? a : b;
+    }
+    
+    public int findMinCost(int i, int[] cost){
+        if(i==cost.length-2){
+            minCostFrom.put(i,cost[i]);
+            return cost[i];
+        }
+        else if(i==cost.length-1){
+            minCostFrom.put(i,cost[i]);
+            return cost[i];
+        }
+        else{
+            if(!minCostFrom.containsKey(i+1)){
+                minCostFrom.put(i+1,findMinCost(i+1,cost));
+            }
+            if(!minCostFrom.containsKey(i+2)){
+                minCostFrom.put(i+2,findMinCost(i+2,cost));
+            }
+            int a = cost[i] + minCostFrom.get(i+1);
+            int b = cost[i] + minCostFrom.get(i+2);
+            minCostFrom.put(i, (a<b) ? a:b);
+            return (a<b) ? a:b;
+        }
+    }
+        
+}

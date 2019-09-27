@@ -1,0 +1,42 @@
+//Iead: two pointer, outer to inner. Find Max recursively. 
+//when pointer is a and b, find smaller one of height[a] and height[b], then let this point to next.
+//Because volume is determined by smaller "height". when pinter to next, length reduce 1, the only situation
+//to get a bigger vloume is make the pointer that point to smaller one to next, then pray that next
+height will be higher.
+
+
+//why use so much storage?  I don't konw!
+//Runtime: 2 ms, faster than 94.62% of Java online submissions for Container With Most Water.
+//Memory Usage: 41.1 MB, less than 14.74% of Java online submissions for Container With Most Water.
+
+class Solution {
+    private int maxV = 0;
+    
+    public int maxArea(int[] height) {
+        int end = height.length -1;
+        if (end == -1 || end == 0){
+            return 0;
+        }
+        
+        findMax(height, 0, end);
+        
+        return maxV ;
+    }
+    
+    private void findMax(int[] height, int sL, int eL){
+        if (eL == sL){
+            
+        } else{
+            maxV = Math.max(maxV, (eL-sL) * Math.min(height[eL],height[sL]));
+            
+            
+            if(height[sL] <= height[eL]){
+                findMax(height, sL + 1, eL);
+            }
+            if(height[sL] > height[eL]){
+                findMax(height, sL, eL - 1);
+            }
+           
+        }
+    }
+}

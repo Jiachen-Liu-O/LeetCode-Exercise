@@ -1,0 +1,48 @@
+//Good method
+//Core idea: like dp, sort array firstly, find subproblem,  as we call : match(0 - nums[i], i+1, length-1, nums);, element before i will
+not be choosed, the situation that the answer contain duplicate sey bcause we choose a,b and b,a will not
+happend. because :(nums[sl] != nums[sl-1] || f == sl),  the situation that we choose  duplicate set because 
+the subarray(i+1, length-1) contains "aaxxxbbb" will not happend.
+
+
+//Runtime: 30 ms, faster than 84.26% of Java online submissions for 3Sum.
+//Memory Usage: 47 MB, less than 90.46% of Java online submissions for 3Sum.
+
+class Solution {
+    private List<List<Integer>> combo;
+    public List<List<Integer>> threeSum(int[] nums) {
+        combo = new ArrayList<List<Integer>>();
+        int length = nums.length;
+        Arrays.sort(nums);
+        
+        for(int i = 0; i< length - 2; i++){
+            if(i == 0 || nums[i] != nums[i-1]){
+                match(0 - nums[i], i+1, length-1, nums);
+            }
+        }
+        return combo;
+    }
+    
+    private void match(int target, int sl, int el, int[] nums){
+        int f = sl;
+        while(el>sl){
+            if(nums[sl] + nums[el] == target && (nums[sl] != nums[sl-1] || f == sl)){
+                ArrayList<Integer> temp = new ArrayList<>();
+                temp.add(0 - target);
+                temp.add(nums[sl]);
+                temp.add(nums[el]);
+                combo.add(temp);
+                sl++;
+                el--;
+            } else if(nums[sl] + nums[el] < target){
+                sl++;
+            } else if(nums[sl] + nums[el] > target){
+                el--;
+            } else{
+                sl++;
+                el--;
+            }
+        }
+    }
+    
+    

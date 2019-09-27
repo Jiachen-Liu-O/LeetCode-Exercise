@@ -1,0 +1,39 @@
+  class Solution {
+    
+    public boolean isMatch(String s, String p) {
+        
+        boolean[][] could = new boolean[s.length()+1][p.length()+1]; //i,j
+        //base case: i=0
+        if(s == null || p == null){
+            return false;
+        }
+            
+        could[0][0] = true;
+    for (int i = 0; i < p.length(); i++) {
+        if (p.charAt(i) == '*' && could[0][i-1]) {
+            could[0][i+1] = true;
+        }
+    }
+        
+        //main case
+        for(int i=0; i<s.length();i++){
+            for(int j= 0; j < p.length(); j++){
+                if(s.charAt(i) == p.charAt(j) || p.charAt(j) == '.'){
+                    could[i+1][j+1] = could[i][j];
+                } else if(p.charAt(j) == '*'){
+                    if(p.charAt(j-1) == s.charAt(i) || p.charAt(j-1) == '.'){
+                        could[i+1][j+1] = could[i+1][j] || could[i+1][j-1] || could[i][j+1];
+                    } else {
+                        could[i+1][j+1] = could[i+1][j-1]; 
+                            
+                            }
+                }
+                
+            }
+        }
+        //1 i != j
+        
+        return could[s.length()][p.length()];
+    }
+    
+} 

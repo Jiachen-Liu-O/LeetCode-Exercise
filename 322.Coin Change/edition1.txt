@@ -1,0 +1,67 @@
+//stupid method
+//Why? beacuse it can be sloved by 1D DP, however, I use 2D DP, every location only store true or false!!! stupid!!
+//Runtime: 191 ms, faster than 5.11% of Java online submissions for Coin Change.
+//Memory Usage: 37 MB, less than 45.56% of Java online submissions for Coin Change.
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        boolean[][] min = new boolean[80][amount+1];
+        int setSize = coins.length;
+        
+        //base cases: amount = 0 / num = 0
+        
+        if(amount == 0){
+            return 0;
+        }
+        if(setSize == 0){
+            return -1;
+        }
+        
+        //base case: amount = 0 / num = 1;
+        //1: amount = 0;
+        for(int i = 0; i<=79; i++){
+            min[i][0] = true;
+        }
+        //2: num = 1
+        for(int i = 0; i<=amount; i++){
+            min[1][i] = false;
+            for(int j = 0; j<setSize; j++){
+                if(coins[j] == i){
+                    min[1][i] = true;
+                }
+                if(coins[j] == amount){
+                    return 1;
+                }
+            }
+        }
+        
+        for(int i = 2; i<=79; i++){
+            for(int j = 1; j<=amount; j++){
+                min[i][j] = false;
+                for(int k = 0; k<setSize; k++){
+                    if(j-coins[k]>=0){
+                        if((min[i-1][j-coins[k]])){
+                            min[i][j] =true;
+                        }
+                    }
+                    }
+            }
+            if(min[i][amount]){
+                return i;
+            }
+        }
+        
+                           
+        //for(int i = 1; i<=100; i++){
+        //    if(min[i][amount] < Integer.MAX_VALUE/2){
+         //       return min[i][amount];
+          //  }
+      //  }
+        
+        
+        return -1;
+        
+    
+
+    }       
+    
+}

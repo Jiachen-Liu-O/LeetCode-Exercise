@@ -1,0 +1,33 @@
+//bottom-up compute all possible subquestions and store them firstly.
+
+class Solution {
+    private HashMap<Integer,Integer> minCostFrom = new HashMap<>();
+    
+    public int minCostClimbingStairs(int[] cost) {
+        
+        //bottom-up compute all possible subquestions and store them firstly.
+        for(int i=cost.length-1;i>=0;i--){
+            findMinCost(i,cost);
+        }
+        int b=minCostFrom.get(0);
+        int a=minCostFrom.get(1);
+        return (a<b)? a:b;
+    }
+    
+  
+    //use answer of it's subproblem stored in minCostFrom to figure out minCostFrom(i)
+    public void findMinCost(int i, int[] cost){
+        int sumCost = 0;
+        if(i==cost.length-2){
+            minCostFrom.put(i,cost[cost.length-2]);
+        }
+        else if(i==cost.length-1){
+            minCostFrom.put(i,cost[cost.length-1]);
+        }
+        else {
+            int temA = cost[i] + minCostFrom.get(i+1);
+            int temB = cost[i] + minCostFrom.get(i+2);
+            minCostFrom.put(i,(temA<temB)? temA:temB);
+        }   
+    }    
+}
